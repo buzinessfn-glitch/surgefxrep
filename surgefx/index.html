@@ -321,6 +321,7 @@
         #reviews { 
             padding: 120px 20px; 
             background: rgba(255,255,255,0.01);
+            border-bottom: 1px solid var(--card-border);
         }
         
         .reviews-container {
@@ -452,6 +453,77 @@
             font-size: 1.1rem;
         }
 
+        /* --- FOOTER STYLING --- */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            background: #050505;
+            position: relative;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .powered-by {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .powered-by span {
+            color: var(--accent-blue);
+        }
+
+        /* --- BACK TO TOP BUTTON --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover {
+            border-color: var(--light-blue);
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--accent-blue);
+        }
+
     </style>
 </head>
 <body>
@@ -468,6 +540,8 @@
             <li><a href="#reviews">Reviews</a></li>
         </ul>
     </nav>
+
+    <a href="#home" id="back-to-top">↑</a>
 
     <section id="home">
         <h1 class="hero-title">SurgeFX</h1>
@@ -494,7 +568,7 @@
         <h2 style="text-align: center;">TRUSTED BY</h2>
         <div class="client-slider-container">
             <div class="client-track" id="client-track">
-                </div>
+            </div>
         </div>
     </section>
 
@@ -502,7 +576,6 @@
         <h2>PRICING</h2>
         <p class="section-sub">Affordable rates for industry-standard quality.</p>
         <div class="pricing-grid">
-            
             <div class="price-card">
                 <div>
                     <h3>SOCIAL HEADER</h3>
@@ -538,7 +611,6 @@
                 </div>
                 <a href="https://x.com/surgepsd" target="_blank" class="btn-modern">Order Now</a>
             </div>
-
         </div>
     </section>
 
@@ -546,14 +618,23 @@
         <h2>MY WORK</h2>
         <p class="section-sub">A collection of my recent projects and commissions.</p>
         <div class="work-frame" id="work-gallery">
-            </div>
+        </div>
     </section>
 
     <section id="reviews" class="reveal">
         <h2 style="text-align: center;">CLIENT FEEDBACK</h2>
         <div class="reviews-container" id="reviews-container">
-            </div>
+        </div>
     </section>
+
+    <footer>
+        <div class="footer-content">
+            <p class="copyright">&copy; 2026 SurgeFX Designs. All Rights Reserved.</p>
+            <div style="width: 50px; height: 2px; background: var(--accent-blue); margin: 10px 0;"></div>
+            <p style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 3px;">Design Mastery</p>
+        </div>
+        <div class="powered-by">Powered by <span>Sxrch</span></div>
+    </footer>
 
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-content">
@@ -567,15 +648,12 @@
     </div>
 
     <script>
-        /* DATA ARRAYS
-           All image paths are now direct (No folder prefix)
-        */
         const clients = [
             { name: '@Prismfnr', occupation: 'Pro Player', desc: 'Incredible speed and professional communication.', pfp: 'prismpfp.jpg', link: 'https://x.com/prismfnr' },
             { name: '@skyszn', occupation: 'SCROLLS duo', desc: 'Surge delivered exactly what I needed for our branding.', pfp: 'skysznpfp.jpg', link: 'https://x.com/SkySZN_' },
             { name: '@kirillianfnx', occupation: 'Pro Player', desc: 'One of the best editors in the scene right now. Highly recommend.', pfp: 'kirillianpfp.jpg', link: 'https://x.com/kirillianfnx' },
             { name: '@Joshreyli', occupation: 'Pro Player', desc: 'Consistently high quality work every single time I order.', pfp: 'joshreylipfp.jpg', link: 'https://x.com/Joshreyli' },
-            { name: 'And More', occupation: 'Community', desc: 'Over 70+ clients satisfied with the work provided.', pfp: 'andmorepfp.png', link: 'https://x.com/surgepsd' }
+            { name: 'And More', occupation: '...', desc: 'Over 40+ clients satisfied with the work provided.', pfp: 'andmorepfp.png', link: 'https://x.com/surgepsd' }
         ];
 
         const reviews = [
@@ -600,32 +678,28 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Add hover effect to interactive elements
-        const hoverTargets = 'a, .client-card, .btn-modern, .price-card, .work-item, #close-popup';
-        document.querySelectorAll(hoverTargets).forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-        });
+        const updateCursorHover = () => {
+            const hoverTargets = 'a, .client-card, .btn-modern, .price-card, .work-item, #close-popup, #back-to-top';
+            document.querySelectorAll(hoverTargets).forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        };
 
         // --- POPULATE CLIENT SLIDER ---
         const track = document.getElementById('client-track');
         const overlay = document.getElementById('popup-overlay');
         
         function fillClients() {
-            // Triple the list to create a seamless infinite loop effect
             const list = [...clients, ...clients, ...clients]; 
-            
             list.forEach(c => {
                 const card = document.createElement('div');
                 card.className = 'client-card';
-                
-                // Fallback logic for missing images
                 card.innerHTML = `
                     <img src="${c.pfp}" onerror="if (this.src != 'https://via.placeholder.com/80/111/fff?text=User') { this.src='https://via.placeholder.com/80/111/fff?text=User'; } else { this.style.display='none'; }">
                     <h4 style="color:var(--light-blue); margin-bottom: 5px;">${c.name}</h4>
                     <p style="font-size:0.7rem; color:var(--text-dim); text-transform: uppercase; font-weight: 700;">${c.occupation}</p>
                 `;
-                
                 card.onclick = () => showPopup(c);
                 track.appendChild(card);
             });
@@ -638,15 +712,14 @@
             document.getElementById('popup-desc').innerText = c.desc;
             document.getElementById('popup-link').href = c.link;
             overlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Lock scroll
+            document.body.style.overflow = 'hidden';
         }
 
         document.getElementById('close-popup').onclick = () => {
             overlay.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Unlock scroll
+            document.body.style.overflow = 'auto';
         };
 
-        // Close popup when clicking outside content
         overlay.onclick = (e) => {
             if (e.target === overlay) {
                 overlay.style.display = 'none';
@@ -656,31 +729,21 @@
 
         // --- POPULATE WORK GALLERY ---
         const workGallery = document.getElementById('work-gallery');
-        
         workImages.forEach(imgSrc => {
             const div = document.createElement('div');
             div.className = 'work-item';
-            
             const img = document.createElement('img');
             img.src = imgSrc;
-            img.alt = "SurgeFX Design Work";
-            
-            // If image is missing, hide the slot instead of showing a broken icon
-            img.onerror = function() {
-                this.parentElement.style.display = 'none';
-            };
-            
+            img.onerror = function() { this.parentElement.style.display = 'none'; };
             div.appendChild(img);
             workGallery.appendChild(div);
         });
 
         // --- POPULATE FEEDBACK ---
         const revContainer = document.getElementById('reviews-container');
-        
         reviews.forEach(r => {
             const div = document.createElement('div');
             div.className = 'review-card';
-            
             div.innerHTML = `
                 <img src="${r.pfp}" class="review-pfp" onerror="this.src='https://via.placeholder.com/80/111/fff?text=User'">
                 <div style="flex:1">
@@ -695,25 +758,33 @@
             revContainer.appendChild(div);
         });
 
-        // --- SCROLL REVEAL LOGIC ---
-        function reveal() {
+        // --- SCROLL REVEAL & BACK TO TOP LOGIC ---
+        const btt = document.getElementById('back-to-top');
+
+        function handleScroll() {
+            // Reveal sections
             const reveals = document.querySelectorAll(".reveal");
             const windowHeight = window.innerHeight;
-            const revealPoint = 100;
-
             reveals.forEach(el => {
                 const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - revealPoint) {
+                if (elementTop < windowHeight - 100) {
                     el.classList.add("active");
                 }
             });
+
+            // Back to Top visibility
+            if (window.scrollY > 400) {
+                btt.classList.add('show');
+            } else {
+                btt.classList.remove('show');
+            }
         }
 
         // Initialize
-        window.addEventListener("scroll", reveal);
+        window.addEventListener("scroll", handleScroll);
         fillClients();
-        reveal(); // Initial check on load
-        
+        handleScroll(); 
+        updateCursorHover(); // Run after content is generated
     </script>
 </body>
 </html>
